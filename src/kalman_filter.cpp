@@ -49,10 +49,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	VectorXd h = VectorXd(3);
 	h << rho, theta, rho_dot;
 	VectorXd y = z - h;
-	auto normalize = [] (double y) {
-		return y - (int)(y/3.14) * 3.14;
+	auto normalize = [] (double & y) {
+		y -= (int)(y/M_PI) * M_PI;
 	};
-	y(1) = normalize(y(1));
+	normalize(y(1));
 	UpdateHelper(y);
 }
 
